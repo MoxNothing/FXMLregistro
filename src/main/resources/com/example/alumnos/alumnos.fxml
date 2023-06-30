@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="582.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.alumnos.alumnos">
+   <children>
+      <TextField fx:id="codigoTextField" layoutX="268.0" layoutY="79.0" promptText="Código" />
+      <TextField fx:id="nombreTextField" layoutX="268.0" layoutY="125.0" promptText="Nombre" />
+      <TextField fx:id="apellidoTextField" layoutX="268.0" layoutY="181.0" promptText="Apellido" />
+      <ChoiceBox fx:id="generoChoiceBox" layoutX="269.0" layoutY="233.0" prefWidth="150.0">
+         <items>
+            <FXCollections fx:factory="observableArrayList">
+               <String fx:value="masculino" />
+               <String fx:value="femenino" />
+            </FXCollections>
+         </items>
+      </ChoiceBox>
+      <ChoiceBox fx:id="modalidadChoiceBox" layoutX="270.0" layoutY="291.0" prefWidth="150.0">
+         <items>
+            <FXCollections fx:factory="observableArrayList">
+               <String fx:value="presencial" />
+               <String fx:value="semipresencial" />
+               <String fx:value="virtual" />
+            </FXCollections>
+         </items>
+      </ChoiceBox>
+      <Label layoutX="153.0" layoutY="343.0" text="Monto:" />
+      <Label fx:id="montoLabel" layoutX="270.0" layoutY="343.0" prefHeight="18.0" prefWidth="150.0" />
+      <Label layoutX="146.0" layoutY="390.0" text="Duración en Meses:" />
+      <Label fx:id="duracionLabel" layoutX="268.0" layoutY="390.0" prefHeight="18.0" prefWidth="150.0" />
+      <Button layoutX="146.0" layoutY="460.0" mnemonicParsing="false" onAction="#generarReporte" text="Generar Reporte" />
+      <Button layoutX="300.0" layoutY="460.0" mnemonicParsing="false" onAction="#limpiarCampos" text="Limpiar Campos" />
+      <Label layoutX="175.0" layoutY="22.0" text="Registro de Alumno">
+         <font>
+            <Font name="System Bold" size="22.0" />
+         </font>
+      </Label>
+      <Label layoutX="146.0" layoutY="84.0" text="Codigo : " />
+      <Label layoutX="146.0" layoutY="130.0" text="Nombre : " />
+      <Label layoutX="146.0" layoutY="186.0" text="Apellido :" />
+      <Label layoutX="146.0" layoutY="238.0" text="Genero :" />
+      <Label layoutX="146.0" layoutY="296.0" text="Modalidad:" />
+   </children>
+</AnchorPane>
