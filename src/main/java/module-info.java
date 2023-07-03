@@ -4,7 +4,8 @@ module com.example.alumnos {
             
         requires org.controlsfx.controls;
             requires com.dlsc.formsfx;
-                        
+    requires java.sql;
+
     opens com.example.alumnos to javafx.fxml;
     exports com.example.alumnos;
 }

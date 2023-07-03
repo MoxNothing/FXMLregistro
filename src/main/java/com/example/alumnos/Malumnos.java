@@ -14,7 +14,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Alumnos extends Application {
+public class Malumnos extends Application {
 
     @FXML
     private TextField codigoTextField;
@@ -39,7 +39,7 @@ public class Alumnos extends Application {
 
     @FXML
     private void generarReporte() {
-        String codigo = codigoTextField.getText();
+        int codigo = Integer.parseInt(codigoTextField.getText());
         String nombre = nombreTextField.getText();
         String apellido = apellidoTextField.getText();
         String genero = generoChoiceBox.getValue();
@@ -50,6 +50,16 @@ public class Alumnos extends Application {
 
         montoLabel.setText(String.valueOf(monto));
         duracionLabel.setText(String.valueOf(duracion));
+
+        List<CAlumnos> alumnos = new ArrayList<>();
+        CAlumnos alumno = new CAlumnos(codigo, nombre, apellido, genero, modalidad);
+        alumnos.add(alumno);
+
+        try {
+            putAlumnos(alumnos);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -63,12 +73,12 @@ public class Alumnos extends Application {
         duracionLabel.setText("");
     }
 
-    public List<Alumno> getAlumnos() throws SQLException {
+    public List<CAlumnos> getAlumnos() throws SQLException {
         String url = "jdbc:mysql://localhost:3306/alumnos";
         String user = "root";
         String pass = "";
 
-        List<Alumno> alumnos = new ArrayList<>();
+        List<CAlumnos> alumnos = new ArrayList<>();
 
         try (Connection conexion = DriverManager.getConnection(url, user, pass)) {
             Statement st = conexion.createStatement();
@@ -77,11 +87,11 @@ public class Alumnos extends Application {
             while (rs.next()) {
                 int codigo = rs.getInt("codigo");
                 String nombre = rs.getString("nombre");
-                String apellidos = rs.getString("apellidos");
+                String apellido = rs.getString("apellido");
                 String genero = rs.getString("genero");
                 String modalidad = rs.getString("modalidad");
 
-                Alumno alumno = new Alumno(codigo, nombre, apellidos, genero, modalidad);
+                CAlumnos alumno = new CAlumnos(codigo, nombre, apellido, genero, modalidad);
                 alumnos.add(alumno);
             }
 
@@ -93,8 +103,7 @@ public class Alumnos extends Application {
 
         return alumnos;
     }
-
-    public void putAlumnos(List<Alumno> alumnos) throws SQLException {
+    public void putAlumnos(List<CAlumnos> alumnos) throws SQLException {
         String url = "jdbc:mysql://localhost:3306/alumnos";
         String user = "root";
         String pass = "";
@@ -104,13 +113,13 @@ public class Alumnos extends Application {
             stmnt.executeUpdate("DELETE FROM alumnos");
             stmnt.close();
 
-            String query = "INSERT INTO alumnos (codigo, nombre, apellidos, genero, modalidad) VALUES (?, ?, ?, ?, ?)";
+            String query = "INSERT INTO alumnos (codigo, nombre, apellido, genero, modalidad) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement ps = conexion.prepareStatement(query);
 
-            for (Alumno alumno : alumnos) {
+            for (CAlumnos alumno : alumnos) {
                 ps.setInt(1, alumno.getCodigo());
                 ps.setString(2, alumno.getNombre());
-                ps.setString(3, alumno.getApellidos());
+                ps.setString(3, alumno.getApellido());
                 ps.setString(4, alumno.getGenero());
                 ps.setString(5, alumno.getModalidad());
                 ps.executeUpdate();
@@ -137,6 +146,9 @@ public class Alumnos extends Application {
         apellidoTextField = (TextField) loader.getNamespace().get("apellidoTextField");
         generoChoiceBox = (ChoiceBox<String>) loader.getNamespace().get("generoChoiceBox");
         modalidadChoiceBox = (ChoiceBox<String>) loader.getNamespace().get("modalidadChoiceBox");
+
+        generoChoiceBox.getItems().addAll("Masculino", "Femenino", "Otro");
+        modalidadChoiceBox.getItems().addAll("Presencial", "Semipresencial", "Virtual");
     }
 
     private double calcularMonto(String modalidad) {
