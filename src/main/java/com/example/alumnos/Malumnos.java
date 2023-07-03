@@ -103,6 +103,7 @@ public class Malumnos extends Application {
 
         return alumnos;
     }
+
     public void putAlumnos(List<CAlumnos> alumnos) throws SQLException {
         String url = "jdbc:mysql://localhost:3306/alumnos";
         String user = "root";
